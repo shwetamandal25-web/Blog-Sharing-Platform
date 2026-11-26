@@ -1,10 +1,11 @@
 import psycopg
-def getConnection ():
+
+def getConnection():
     conn = psycopg.connect(
-        DB_HOST=localhost
-        DB_NAME=blogify
-        DB_USER=bloguser
-        DB_PASSWORD=blog123
-        DB_PORT=5432
+        host="localhost",
+        dbname="blogify",
+        user="bloguser",
+        password="blog123",
+        port=5432
     )
     return conn
