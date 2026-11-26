@@ -1,26 +1,18 @@
 from fastapi import FastAPI
-from routes.auth import router as auth_router
 
-app = FastAPI(
-    title="Blog Sharing Platform",
-    description="Backend API for Blog Sharing Platform",
-    version="1.0.0"
-)
+from database.connection import Base, engine
+from models import user  # noqa: F401  (so the table gets created)
+from routes import auth
+from router.blog import router as blog_router
+from router.user import router as user_router
+
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI(title="Blog Sharing Platform")
+app.include_router(auth.router)
 
 
 @app.get("/")
-def home():
-    return {
-        "message": "Welcome to Blog Sharing Platform"
-    }
-
-
-@app.get("/about")
-def about():
-    return {
-        "message": "This is the Blog Sharing Platform API"
-    }
-
-
-app.include_router(auth_router)
+def root():
+    return {"message": "Blog Sharing Platform API"}
 
